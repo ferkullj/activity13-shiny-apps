@@ -3,6 +3,7 @@
 library(shiny)
 library(dplyr)
 library(readr)
+library(tables)
 
 # Load data --------------------------------------------------------------------
 
@@ -40,13 +41,15 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   
   # Create reactive data frame
-  movies_selected <- ___
+  movies_selected <- reactive({
+    movies %>% select(input$selected_var)
+  })
   
   # Create data table
   output$moviestable <- DT::renderDataTable({
     req(input$selected_var)
-    datatable(
-      data = movies %>% select(input$selected_var),
+    data.frame(
+      data = movies_selected(),
       options = list(pageLength = 10),
       rownames = FALSE
     )
