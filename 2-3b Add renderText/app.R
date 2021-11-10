@@ -43,10 +43,15 @@ server <- function(input, output, session) {
       geom_point()
   })
   
-  # Create text output stating the correlation between the two ploted 
-  output$correlation <- ___
-  
-  s}
+  # Create text output stating the correlation between the two ploted
+  output$correlation <- renderText({
+    r <- round(cor(movies[, input$x], movies[, input$y], use = "pairwise"), 3)
+    paste0(
+      "Correlation = ", r,
+      ". Note: If the relationship between the two variables is not linear, the correlation coefficient will not be meaningful."
+    )
+  })
+}
 
 # Create the Shiny app object --------------------------------------------------
 
